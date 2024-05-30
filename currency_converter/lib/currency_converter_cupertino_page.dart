@@ -16,8 +16,7 @@ class _CurrencyConverterCupertinoPageState
   Widget build(BuildContext context) {
 /*for borderradius parent widgets will be Outlineinputborder,InputDecoration,TextField,column,Center and scaffold.S
 
-                  BorderRadius.circular(50) =BorderRadius.all(Radius: circular(50))
-                  */
+                  BorderRadius.circular(50) =BorderRadius.all(Radius: circular(50))*/
 
     return CupertinoPageScaffold(
       backgroundColor: const Color.fromARGB(255, 227, 125, 207),
