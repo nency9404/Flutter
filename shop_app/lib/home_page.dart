@@ -1,9 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:shop_app/global_variables.dart';
+import 'package:shop_app/product_card.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
   final List<String> filters = const [
     'All',
     'Adidas',
@@ -11,6 +18,13 @@ class HomePage extends StatelessWidget {
     'Bata',
     'Puma',
   ];
+  late String selectedFilter;
+
+  @override
+  void initState() {
+    super.initState();
+    selectedFilter = filters[0];
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +43,7 @@ class HomePage extends StatelessWidget {
           children: [
             const Row(
               children: [
-                const Padding(
+                Padding(
                   padding: EdgeInsets.all(10),
                   child: Text(
                     'Shoes\nCollection',
@@ -39,13 +53,14 @@ class HomePage extends StatelessWidget {
                     ),
                   ),
                 ),
-                const Expanded(
+                Expanded(
                   child: TextField(
                     decoration: InputDecoration(
                       hintText: 'Search',
                       prefixIcon: Icon(Icons.search),
                       border: border,
                       enabledBorder: border,
+                      focusedBorder: border,
                     ),
                   ),
                 ),
@@ -60,17 +75,44 @@ class HomePage extends StatelessWidget {
                   final filter = filters[index];
                   return Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                    child: Chip(
-                      backgroundColor: const Color.fromRGBO(239, 240, 240, 1),
-                      labelStyle: const TextStyle(
-                        fontSize: 16,
+                    child: GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          selectedFilter = filter;
+                        });
+                      },
+                      child: Chip(
+                        backgroundColor: selectedFilter == filter
+                            ? Theme.of(context).colorScheme.primary
+                            : const Color.fromRGBO(245, 247, 249, 1),
+                        side: const BorderSide(
+                          color: Color.fromRGBO(245, 247, 249, 1),
+                        ),
+                        labelStyle: const TextStyle(
+                          fontSize: 16,
+                        ),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 10,
+                        ),
+                        label: Text(filter),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30)),
                       ),
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 16,
-                        vertical: 10,
-                      ),
-                      label: Text(filter),
                     ),
+                  );
+                },
+              ),
+            ),
+            Expanded(
+              child: ListView.builder(
+                itemCount: products.length,
+                itemBuilder: (context, index) {
+                  final product = products[index];
+                  return ProductCard(
+                    title: 'HIi',
+                    price: 31.5,
+                    image: product['imageUrl'] as String,
                   );
                 },
               ),
